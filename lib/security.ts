@@ -18,7 +18,8 @@ export function hashIp(ip: string): string {
 
 export async function validateTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return process.env.NODE_ENV === "development";
+  // Turnstile es opcional: si no hay clave configurada, se omite la verificación.
+  if (!secret) return true;
   if (!token) return false;
 
   try {

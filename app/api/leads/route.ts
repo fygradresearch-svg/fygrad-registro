@@ -45,12 +45,6 @@ export async function POST(request: NextRequest) {
     return json("Ingresa tus nombres y apellidos correctamente.", 422);
   }
 
-  if (process.env.NODE_ENV === "production" &&
-      (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY)) {
-    console.error("Falta configurar Turnstile");
-    return json("El formulario esta temporalmente no disponible. Contactanos por WhatsApp.", 503);
-  }
-
   const ip = getClientIp(request);
   if (!(await validateTurnstile(data.turnstileToken, ip))) {
     return json("No pudimos verificar tu solicitud. Vuelve a intentarlo.", 400);
